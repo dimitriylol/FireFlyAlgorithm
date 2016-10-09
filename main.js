@@ -1,13 +1,14 @@
-const maxFireFly = require('./maxFireFly.js');
+const minFireFly = require('./minFireFly.js');
 
 // input params
-const params = { betta0: 0.5,
+const params = { betta0: 1.5,
                  gamma: 1.0,
                  lambdaMin: 0.0,
                  lambdaMax: 1.0,
                  alpha0: 0.5,
                  totalIterations: 1000,
-                 fireFliesAmount: 100                 
+                 fireFliesAmount: 500,
+                 dimension: 2
                };
 
 function buildFunc (lambda, funcName, start, end) {
@@ -15,7 +16,13 @@ function buildFunc (lambda, funcName, start, end) {
 }
 
 // funcs to count
-const funcs = [ buildFunc((x) => -x*x - 2, 'testFunc', -10, 10) ];
+const funcs = [ buildFunc((nDimensionalPostion) =>
+                          nDimensionalPostion
+                          .reduce((res, point) => res += point*point,
+                                  0),
+                          'Sphere function',
+                          -100,
+                          100) ];
 
 function visualizeData (funcName, bestFly) {
     console.log(`best firefly for ${funcName} is ${bestFly}`);
@@ -24,7 +31,7 @@ function visualizeData (funcName, bestFly) {
 funcs
     .map(({ lambda, funcName, start, end }) =>
          visualizeData(funcName,
-                       maxFireFly(Object.assign(params,
+                       minFireFly(Object.assign(params,
                                                 { startPosition: start,
                                                   endPosition: end }),
                                   lambda)));

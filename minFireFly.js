@@ -12,14 +12,14 @@ function calcLambda (fireFlyRank, { fireFliesAmount, lambdaMax, lambdaMin }) {
     return lambdaMax - fireFlyRank * (lambdaMax - lambdaMin) / (fireFliesAmount - 1); 
 }
 
-function maxFireFlies (params, calcBrightness) {
+function minFireFlies (params, calcBrightness) {
     let fireFlySwarm = new FireFlySwarm(params, calcBrightness);
     let bestFireFly = fireFlySwarm.swarm[0];
     for (let iter = 0; iter < params.totalIterations; iter++) {
         let alpha = countAlpha(params, iter);
         for (let i = 0; i < params.fireFliesAmount; i++) {
             for (let j = 0; j < params.fireFliesAmount; j++) {
-                if (fireFlySwarm.swarm[j].rank > fireFlySwarm.swarm[i].rank) {
+                if (fireFlySwarm.swarm[j].rank < fireFlySwarm.swarm[i].rank) {
                     fireFlySwarm.swarm[i].position =
                         moveFireFly(fireFlySwarm.swarm[i].position,
                                     fireFlySwarm.swarm[j].position,
@@ -35,7 +35,7 @@ function maxFireFlies (params, calcBrightness) {
     return bestFireFly;
 }
 
-module.exports = maxFireFlies;
+module.exports = minFireFlies;
 
 
 

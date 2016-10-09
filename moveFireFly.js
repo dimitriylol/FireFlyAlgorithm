@@ -8,7 +8,12 @@ function leviFlight (alpha, lambda) {
 }
 
 function countDistance (resultFireFlyI, resultFireFlyJ) {
-    return Math.sqrt(Math.pow(resultFireFlyI - resultFireFlyJ, 2));
+    return Math
+        .sqrt(resultFireFlyI
+              .reduce((distance, _, dimension) =>
+                      distance += Math.pow(resultFireFlyI[dimension] - resultFireFlyJ[dimension],
+                                           2),
+                      0));
 }
 
 function normalizePosition (position, { startPosition, endPosition }) {
@@ -20,14 +25,17 @@ function normalizePosition (position, { startPosition, endPosition }) {
 /**
  * params is object with mandatory keys: betta0, gamma
  * alpha and lambda are coeficcients for normal spreading
+ * positionFireFly is N-dimensional point
  */
 function moveFireFly (positionFireFlyI, positionFireFlyJ, lambda, alpha, params) {
-    const attraction = fireFlyAttraction(params, countDistance(positionFireFlyI, positionFireFlyJ));
-    return normalizePosition(positionFireFlyI +
-                             attraction * (positionFireFlyJ - positionFireFlyI) +
-                             alpha * leviFlight(alpha,
-                                                lambda),
-                             params);
+    const distance = countDistance(positionFireFlyI, positionFireFlyJ);
+    return positionFireFlyI
+        .map((posI, dimension) =>
+             normalizePosition(posI +
+                               fireFlyAttraction(params, distance) * distance +
+                               alpha * leviFlight(alpha,
+                                                  lambda),
+                               params));
 }
 
 module.exports = moveFireFly;

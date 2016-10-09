@@ -9,22 +9,25 @@ function randomPosition (start, end) {
     return Math.random() * (end - start) + start;
 }
 
+function randomNposition (startPosition, endPosition, dimension) {
+    return arrRange(dimension).map(() => randomPosition(startPosition, endPosition));
+}
+
 function ascendingFireFlyByRank (fireFly1, fireFly2) {
-    if (fireFly1.rank < fireFly2.rank) return 1;
-    if (fireFly1.rank > fireFly2.rank) return -1;
+    if (fireFly1.rank > fireFly2.rank) return 1;
+    if (fireFly1.rank < fireFly2.rank) return -1;
     return 0;
 }
 
 function arrRange (length) {
     return Array.apply(undefined, { length }).map(Number.call, Number);
 }
-    
 
 class FireFlySwarm {
-    constructor ({ fireFliesAmount, startPosition, endPosition }, calcBrightness) {
+    constructor ({ fireFliesAmount, startPosition, endPosition, dimension }, calcBrightness) {
         this._swarm = (arrRange(fireFliesAmount)
-                       .map((el) => (new FireFly(randomPosition(startPosition, endPosition),
-                                                 calcBrightness))));
+                       .map(() => (new FireFly(randomNposition(startPosition, endPosition, dimension),
+                                               calcBrightness))));
         this._rankFireFlySwarm(ascendingFireFlyByRank);
     }
 
