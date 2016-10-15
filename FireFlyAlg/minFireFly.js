@@ -32,10 +32,16 @@ function minFireFlies (params, calcBrightness) {
         }
         bestFireFly = fireFlySwarm.chooseMaxFireFlyByRank();
     }
+    console.log("We've got a winner! " + bestFireFly);
+    console.log("This is the best firefly from another " + params.fireFliesAmount + " fireflies\n");
     return bestFireFly;
 }
 
 module.exports = minFireFlies;
+
+
+
+
 
 
 
