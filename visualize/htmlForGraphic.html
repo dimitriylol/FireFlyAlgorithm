@@ -2,119 +2,33 @@
 <meta charset="utf-8">
 <style> /* set the CSS */
 
-body { font: 12px Arial;}
+ body { font: 12px Arial;}
 
-path { 
-    stroke: steelblue;
-    stroke-width: 2;
-    fill: none;
-}
+ path { 
+     stroke: steelblue;
+     stroke-width: 2;
+     fill: none;
+ }
 
-.axis path,
-.axis line {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
-}
+ .axis path,
+ .axis line {
+     fill: none;
+     stroke: grey;
+     stroke-width: 1;
+     shape-rendering: crispEdges;
+ }
 
 </style>
 <body>
-
-<!-- load the d3.js library -->    
-<script src="http://d3js.org/d3.v3.min.js"></script>
-
-<script>
- 
- // Set the dimensions of the canvas / graph
- var margin = {top: 30, right: 20, bottom: 30, left: 50},
-     width = 600 - margin.left - margin.right,
-     height = 270 - margin.top - margin.bottom;
- 
- // Set the ranges
- var x = d3.scale.linear().range([0, width]);
- var y = d3.scale.linear().range([height, 0]);
- 
- // Define the axes
- var xAxis = d3.svg.axis().scale(x)
-               .orient("bottom").ticks(5);
- 
- var yAxis = d3.svg.axis().scale(y)
-               .orient("left").ticks(5);
- 
- // Adds the svg canvas
- var svg = d3.select("body")
-             .append("svg")
-             .attr("width", width + margin.left + margin.right)
-             .attr("height", height + margin.top + margin.bottom)
-             .append("g")
-             .attr("transform", 
-                   "translate(" + margin.left + "," + margin.top + ")");
-
-
- function httpGetAsync (theUrl, callback) {
-     var xhr = new XMLHttpRequest();
-     xhr.open('GET', theUrl, true);
-     xhr.onload = function() {
-         debugger;
-         // Get the data
-         var result = (JSON.parse(this.responseText))[0];
-         var data = result.graphic.values;
-         var axisXname = result.graphic.axisX;
-         var axisYname = result.graphic.axisY;
-
-         /* data.forEach(function(d) {
-          *     d.date = parseDate(d.date);
-          *     d.close = +d.close;
-          * });
-          */
-         // Scale the range of the data
-         x.domain([0, d3.max(data, function(d) {
-             return d[axisXname];
-         })]);
-         y.domain([0, d3.max(data, function(d) {
-             return d[axisYname];
-         })]);
-
-         // Define the line
-         var valueline = d3.svg.line()
-                           .x(function(d) { return x(d[axisXname]); })
-                           .y(function(d) { return y(d[axisYname]); });
-         
-         // Add the valueline path.
-         svg.append("path")
-            .attr("class", "line")
-            .attr("d", valueline(data));
-
-         // Add the scatterplot
-         svg.selectAll("dot")
-            .data(data)
-            .enter().append("circle")
-            .attr("r", 3.5)
-            .attr("cx", function(d) { return x(d[axisXname]); })
-            .attr("cy", function(d) { return y(d[axisYname]); });
-
-         // Add the X Axis
-         svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
-
-         // Add the Y Axis
-         svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis);
-     }
-
-     xhr.onerror = function() {
-         alert( 'Ошибка ' + this.status );
-     }
-
-     xhr.send();
- }
-
-
- httpGetAsync('http://localhost:8000/test');
-
-</script>
+    <!-- load the d3.js library -->    
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <!-- pure js function for sending get request -->
+    <script src="./httpGetAsync.js"></script>
+    <!-- consts for graphic: margin, width, height, defining axis and svg-graphic -->
+    <script src="./graphConsts.js"></script>
+    <!-- function for building graphic from response on localhost:8000  -->
+    <script src="./buildGraph.js"></script>
+    <script>
+     httpGetAsync('http://localhost:8000', buildGraph);
+    </script>
 </body>
