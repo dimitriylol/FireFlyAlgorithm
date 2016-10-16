@@ -25,7 +25,7 @@ function flyFireFlies (fireFliesAmount, lambda, params) {
     const averageMinFireFly = min(Array.from(new Array(iterationOfFlies),
                                              () => minFireFly(params, lambda)));
     return { fireFliesAmount,
-             minFireFly
+             minFireFly: averageMinFireFly
            };
 }
 

@@ -1,7 +1,4 @@
-const toCSV = require('./toCSV.js');
-const generateGraphicFromCSV = require('./graphicFromCSV.js');
 const resolvePath = require('path').resolve;
-const when = require('when');
 
 /**
  * arrFireFliesRes is array of object
@@ -20,13 +17,3 @@ function visualizeData (arrFireFliesRes) {
 }
 
 module.exports = visualizeData;
-
-
-
-
-
-
-
-
-
-
