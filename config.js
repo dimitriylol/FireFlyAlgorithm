@@ -3,9 +3,8 @@ const params = { betta0: 1.2,
                  lambdaMin: 0.0,
                  lambdaMax: 1.0,
                  alpha0: 0.5,
-                 totalIterations: 2000,
-                 fireFliesAmount: 500,
-                 dimension: 3
+                 totalIterations: 200,
+                 dimension: 1
                };
 
 module.exports = params;

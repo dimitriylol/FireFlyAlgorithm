@@ -16,21 +16,19 @@ function readFilePromise (pathToFile) {
                                  }));
 }
 
-function min (arrFireFlies) {    
+function min (arrFireFlies) {
     return arrFireFlies.map((fireFly) => fireFly.rank).sort()[0];
 }
 
 function flyFireFlies (fireFliesAmount, lambda, params) {
-    const iterationOfFlies = 10;
-    const averageMinFireFly = min(Array.from(new Array(iterationOfFlies),
-                                             () => minFireFly(params, lambda)));
     return { fireFliesAmount,
-             minFireFly: averageMinFireFly
+             minFireFly: minFireFly(params, lambda).rank
            };
 }
 
 function visualizeFireFliesRes () {
-    const rangeFireFliesAmount = Array.from(new Array(10), (_, index) => index*100 + 200);
+    const rangeFireFliesAmount = Array.from(new Array(10),
+                                            (_, index) => index*100 + 200);
     return visualizeData(
         funcs
             .map(({ lambda, funcName, start, end }) =>

@@ -12,9 +12,11 @@ class FireFly {
         this._rank = this._calcBrightness(val);
     }
 
-    get rank () { return this._rank; }
+    get rank () {
+        return this._rank;
+    }
 
-    toString() { return `FireFly position: ${this._position} rank: ${this._rank}`; }
+    toString() { return `FireFly position: ${this._position} rank: ${this.rank}`; }
 }
 
 module.exports = FireFly;

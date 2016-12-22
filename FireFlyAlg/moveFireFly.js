@@ -1,5 +1,5 @@
 function fireFlyAttraction ({ betta0, gamma }, distance) {
-    return betta0 * Math.exp(-gamma, distance*distance);
+    return betta0 * Math.exp(-gamma*distance*distance);
 }
 
 function leviFlight (alpha, lambda) {
@@ -17,8 +17,10 @@ function countDistance (resultFireFlyI, resultFireFlyJ) {
 }
 
 function normalizePosition (position, { startPosition, endPosition }) {
-    if (position > endPosition) return endPosition;
-    if (position < startPosition) return startPosition;
+    if (position > endPosition)
+        return endPosition;
+    if (position < startPosition) 
+        return startPosition;        
     return position;
 }
 
@@ -29,12 +31,12 @@ function normalizePosition (position, { startPosition, endPosition }) {
  */
 function moveFireFly (positionFireFlyI, positionFireFlyJ, lambda, alpha, params) {
     const distance = countDistance(positionFireFlyI, positionFireFlyJ);
+    const attraction = fireFlyAttraction(params, distance);
     return positionFireFlyI
         .map((posI, dimension) =>
              normalizePosition(posI +
-                               fireFlyAttraction(params, distance) * distance +
-                               alpha * leviFlight(alpha,
-                                                  lambda),
+                               attraction * (positionFireFlyJ[dimension] - posI) +
+                               alpha * leviFlight(alpha, lambda),
                                params));
 }
 

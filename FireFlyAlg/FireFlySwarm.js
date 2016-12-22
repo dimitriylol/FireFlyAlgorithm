@@ -13,6 +13,12 @@ function randomNposition (startPosition, endPosition, dimension) {
     return arrRange(dimension).map(() => randomPosition(startPosition, endPosition));
 }
 
+function decendingFireFlyByRank (fireFly1, fireFly2) {
+    if (fireFly1.rank < fireFly2.rank) return 1;
+    if (fireFly1.rank > fireFly2.rank) return -1;
+    return 0;
+}
+
 function ascendingFireFlyByRank (fireFly1, fireFly2) {
     if (fireFly1.rank > fireFly2.rank) return 1;
     if (fireFly1.rank < fireFly2.rank) return -1;
@@ -36,6 +42,11 @@ class FireFlySwarm {
     _rankFireFlySwarm (sortFunc) { this._swarm = this._swarm.sort(sortFunc); }
 
     chooseMaxFireFlyByRank () {
+        this._rankFireFlySwarm(decendingFireFlyByRank);
+        return this._swarm[0];
+    }
+
+    chooseMinFireFlyByRank () {
         this._rankFireFlySwarm(ascendingFireFlyByRank);
         return this._swarm[0];
     }
